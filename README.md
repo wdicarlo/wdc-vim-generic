@@ -1,4 +1,4 @@
-vim-generic
+wdc-vim-generic
 ===========
 
-vim setup for generic usage
+Vim setup for generic usage
