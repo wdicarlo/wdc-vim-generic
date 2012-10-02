@@ -109,6 +109,9 @@
                 Bundle 'majutsushi/tagbar'
             endif
             Bundle 'Shougo/neocomplcache'
+            Bundle 'c.vim'
+            "Bundle 'cscope_plus.vim'
+            Bundle 'CCTree'
         endif
 
     " Misc
@@ -116,7 +119,6 @@
             Bundle 'spf13/vim-markdown'
             Bundle 'spf13/vim-preview'
             Bundle 'tpope/vim-cucumber'
-            Bundle 'Puppet-Syntax-Highlighting'
         endif
     endif
 " }
@@ -160,6 +162,9 @@
       set cspc=1 " display last 3 compoenents of the file's path
       set cscopetag
       "set cscopequickfix=s-,c-,d-,i-,t-,e-
+      if filereadable("cscope.out")
+          exec "cs add cscope.out"
+      endif
     " }
     
     " Setting up the directories {
@@ -176,13 +181,6 @@
 " }
 
 " Vim UI {
-    if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-        color solarized                 " load a colorscheme
-    endif
-        let g:solarized_termtrans=1
-        let g:solarized_termcolors=256
-        let g:solarized_contrast="high"
-        let g:solarized_visibility="high"
     set tabpagemax=15               " only show 15 tabs
     set showmode                    " display the current mode
 
@@ -274,6 +272,8 @@
     nmap <C-t>n :tabnew<CR>
     nmap <c-t>q :windo exec "bd"<cr>
     nmap <c-t>qq :windo exec "bd!"<cr>
+    nmap <tab> :tabnext<cr>
+    nmap <s-tab> :tabprev<cr>
 
     " The following maps help with window resizing...
     nmap <C-up> <C-w>+
@@ -296,7 +296,7 @@
     map <S-L> gt
 
     " Stupid shift key fixes
-    cmap W w
+    "map W w
     cmap WQ wq
     cmap wQ wq
     cmap Q q
@@ -362,7 +362,7 @@
     nmap <c-e>v :tabnew ~/.vimrc<CR>
     nmap <c-e>i :tabnew ~/.viminfo<CR>
     nmap <c-e>e :tabnew ~/.vim/doc/vim_tips.txt<CR>
-    nmap <c-e>p :tabnew ~/.vim/plugin<CR>
+    nmap <c-e>p :tabnew ~/.vim/bundle<CR>
 
     " Key maps to force cursor to center the selected line
     nmap <c-]> <c-]>zz
@@ -675,6 +675,15 @@
     " let savevers_dirs = &backupdir
     " } 
 
+    " Solarize {
+    if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+        color solarized                 " load a colorscheme
+        let g:solarized_termtrans=1
+        let g:solarized_termcolors=256
+        let g:solarized_contrast="high"
+        let g:solarized_visibility = "low"  " normal, low, high"
+    endif
+    " }
 " }
 
 " GUI Settings {
