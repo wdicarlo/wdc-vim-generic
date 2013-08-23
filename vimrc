@@ -11,6 +11,11 @@
     " Basics {
         set nocompatible        " must be first line
         set background=dark     " Assume a dark background
+        ":silent! redir @p
+        ":pwd
+        ":redir END
+        let g:vim_started_from_path=getcwd()
+        set path=$PWD
     " }
 
     " Windows Compatible {
@@ -87,6 +92,9 @@
             Bundle 'vimoutliner-colorscheme-fix'
             Bundle 'vim-indent-object'
             Bundle 'project.tar.gz'
+            Bundle 'AsyncCommand'
+
+
 
             Bundle 'wdicarlo/vim-notebook'
         endif
@@ -154,6 +162,7 @@
     set history=1000                " Store a ton of history (default is 20)
     set spell                       " spell checking on
     set hidden                      " allow buffer switching without saving
+    set diffopt+=iwhite             " ignore spaces
 
     " cscope {
       set cscopeprg=cscope
@@ -299,7 +308,13 @@
     "map W w
     cmap WQ wq
     cmap wQ wq
-    cmap Q q
+    cmap WQ wq
+    cmap Wq wq
+    cmap Wqa wqa
+    cmap Qa qa
+    cmap qA qa
+    cmap QA qa
+    "cmap Q q
     cmap Tabe tabe
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
@@ -375,6 +390,16 @@
 
     " delete all duplicated lines
     :nno <leader>d2 :g/^/kl\|if search('^'.escape(getline('.'),'\.*[]^$/').'$','bW')\|'ld<CR>
+
+    " grep 
+    nmap g* :exec ":Shell grep -C 2 -rni ".expand("<cword>")." ".&path."/\\\*"<cr>
+    nmap g** :call <SID>GrepProjectPaths(expand("<cword>"),0)<cr>
+    nmap G** :call <SID>GrepProjectPaths(expand("<cword>"),1)<cr>
+    nmap cd :exec ":cd ".&path<cr>
+
+    nmap Gf <c-w><c-f>
+    command! -bang -nargs=0 Q exec ":q"
+    command! -bang -nargs=0 Wq exec ":wq"
 " }
 
 " Plugins {
@@ -498,7 +523,7 @@
      "}
 
      " TagBar {
-        nnoremap <silent> <leader>tt :TagbarToggle<CR>
+        nnoremap <silent> <c-\>tt :TagbarToggle<CR>
      "}
 
       " TagList {
@@ -684,6 +709,13 @@
         let g:solarized_visibility = "low"  " normal, low, high"
     endif
     " }
+
+    " AsyncCommand {"  
+      if filereadable("cscope.out")
+        let g:cscope_database = "cscope.out"
+        let g:cscope_relative_path = "."
+      endif
+    " }
 " }
 
 " GUI Settings {
@@ -723,7 +755,7 @@
     endif
 " }
 
- " Functions {
+" Functions {
     " Initialization {
     function! InitializeDirectories()
       let separator = "."
@@ -756,6 +788,40 @@
     endfunction
     call InitializeDirectories()
     " }
+
+    " Grep {
+        " TODO: create the plugin  ProjectGrep
+        " ProjectGrep features:
+        " * each grep is stored a different file
+        " * load executed grep
+        " * use g:grep_path global variable
+        " * display result in a new window or tab
+        " * commands to refresh the file or to repeat the grep
+        " * use TailBundle to refresh the result file
+        " * use relative paths
+        function! s:GrepProjectPaths(pattern,mode)
+            let patt=EscapeString(a:pattern)
+            exec ":silent !echo > ~/temp.txt&"
+            for p in g:grep_path
+                let gp=&path."/".p
+                let cmd =   ":silent !find ".gp." -type f -name \"\*\.[chS]\" \| xargs -n1 -I@ grep -iHn --color ".patt." @ \>\> ~\/temp.txt\&"
+                exec ":silent !find ".gp." -type f -name \"\*\.[chS]\" | xargs -n1 -I@ grep -iHn --color ".patt." @ >> ~/temp.txt&"
+            endfor
+            redraw!
+            if a:mode==0
+                new ~/temp.txt
+            else
+                tabnew ~/temp.txt
+            endif
+            sleep 1
+            exec ":setlocal autoread"
+            "call search(patt)
+            call matchadd('Search', patt)
+            let @/="".patt
+            normal! ggn
+        endfunction
+        command! -nargs=1 GrepProject call <SID>GrepProjectPaths('<args>',0)
+    "}
 
     " NERDTree {
     function! NERDTreeInitAsNeeded()
@@ -962,7 +1028,8 @@
       :exe cmd
     endfunction
 
-    noremap ;; :%s:::g<Left><Left><Left>
+    nmap ;; :%s:::g<Left><Left><Left>
+    vmap ;; <Esc>:%s:<c-r>=GetVisual()<cr>::cg<left><left><left>
     noremap ;w :call FindAndReplaceWord()<CR>
     noremap ;' :%s:::cg<Left><Left><Left><Left>
     " }
