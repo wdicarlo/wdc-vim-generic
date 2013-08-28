@@ -88,8 +88,9 @@
 
             Bundle 'L9'
             Bundle 'FuzzyFinder'
-            Bundle 'VimOutliner'
-            Bundle 'vimoutliner-colorscheme-fix'
+            "Bundle 'VimOutliner'
+            "Bundle 'vimoutliner-colorscheme-fix'
+            Bundle 'vimoutliner/vimoutliner'
             Bundle 'vim-indent-object'
             Bundle 'project.tar.gz'
             Bundle 'AsyncCommand'
@@ -880,6 +881,8 @@
     vmap <c-f>r <Esc>:%s/<c-r>=GetVisual()<cr>/
     vmap <c-f>s <Esc>:g/<c-r>=GetVisual()<cr><cr>
     vmap <c-f>sl <Esc>:exec ":lvimgrep /".GetVisual()."/ %"<cr> :lopen<cr>
+    vmap <c-f>p <Esc>:exec ":Shell find . \| grep ".GetVisual()<cr>
+    nmap <c-f>p :exec ":Shell find . \| grep ".expand("<cword>")." \| grep -v \".svn\""<cr>
     nmap <c-f>s :exec ":g/".expand("<cword>")<cr>
     nmap <c-f>sl :exec ":lvimgrep /".expand("<cword>")."/ %"<cr> :lopen<cr>
     nmap <c-f>/ :exec ":g/".@/<cr>
