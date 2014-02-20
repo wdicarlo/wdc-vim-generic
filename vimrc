@@ -414,6 +414,7 @@
     " Misc {
         let g:NERDShutUp=1
         let b:match_ignorecase = 1
+        let g:nerdtree_tabs_open_on_gui_startup = 0
     " }
 
     " OmniComplete {
@@ -1013,8 +1014,8 @@
     nnoremap <silent> <leader>y :call Putclip('n', 1)<CR>
     nnoremap <silent> <leader>p :call Getclip()<CR>
     " Cut via \x in normal or visual mode.
-    vnoremap <silent> <leader>x :call Cutclip(visualmode(), 1)<CR>
-    nnoremap <silent> <leader>x :call Cutclip('n', 1)<CR>
+    vnoremap <silent> <leader>x :call CutClip(visualmode(), 1)<CR>
+    nnoremap <silent> <leader>x :call CutClip('n', 1)<CR>
     " }
 
     " Find {
