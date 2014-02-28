@@ -120,6 +120,7 @@
             Bundle 'Shougo/neocomplcache'
             Bundle 'c.vim'
             "Bundle 'cscope_plus.vim'
+            Bundle 'cscope.vim'
             Bundle 'CCTree'
         endif
 
@@ -172,9 +173,9 @@
       set cspc=1 " display last 3 compoenents of the file's path
       set cscopetag
       "set cscopequickfix=s-,c-,d-,i-,t-,e-
-      if filereadable("cscope.out")
-          exec "cs add cscope.out"
-      endif
+      ""if filereadable("cscope.out")
+      ""    exec "cs add cscope.out"
+      ""endif
     " }
     
     " Setting up the directories {
@@ -260,7 +261,7 @@
 
     "The default leader is '\', but many people prefer ',' as it's in a standard
     "location
-    let mapleader = ','
+    let mapleader = '\'
 
     " Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
     nnoremap ; :
@@ -292,8 +293,8 @@
     nmap <C-right> <C-w>>
 
     " scroll without moving the cursor
-    nmap <c-j> <c-e>j
-    nmap <c-k> <c-y>k
+    nmap <s-j> <c-e>j
+    nmap <s-k> <c-y>k
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
