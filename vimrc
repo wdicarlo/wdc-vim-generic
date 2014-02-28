@@ -79,7 +79,8 @@
             Bundle 'kien/ctrlp.vim'
             Bundle 'vim-scripts/sessionman.vim'
             Bundle 'matchit.zip'
-            Bundle 'Lokaltog/vim-powerline'
+            "Bundle 'Lokaltog/vim-powerline'
+            Bundle 'bling/vim-airline'
             Bundle 'Lokaltog/vim-easymotion'
             "Bundle 'godlygeek/csapprox'
             Bundle 'jistr/vim-nerdtree-tabs'
@@ -93,7 +94,7 @@
             Bundle 'vimoutliner/vimoutliner'
             Bundle 'vim-indent-object'
             Bundle 'project.tar.gz'
-            Bundle 'AsyncCommand'
+            ""Bundle 'AsyncCommand'
 
 
 
@@ -414,6 +415,7 @@
     " Misc {
         let g:NERDShutUp=1
         let b:match_ignorecase = 1
+        let g:nerdtree_tabs_open_on_gui_startup = 0
     " }
 
     " OmniComplete {
@@ -616,6 +618,7 @@
     " VimOutline {
       if has("autocmd")
         autocmd BufRead *.otl
+                    \ set filetype=vo_base |
         \ nmap <c-o>t :let @/ = '^\s*\[_\]'<CR> :exe "normal! n"<CR>    |
         \ nmap <c-o>T :let @/ = '^\s*\[X\]'<CR> :exe "normal! n"<CR>    |
         \ nmap <c-o>q :let @/ = '^\s*\[_\].*?'<CR> :exe "normal! n"<CR> |
@@ -1012,8 +1015,8 @@
     nnoremap <silent> <leader>y :call Putclip('n', 1)<CR>
     nnoremap <silent> <leader>p :call Getclip()<CR>
     " Cut via \x in normal or visual mode.
-    vnoremap <silent> <leader>x :call Cutclip(visualmode(), 1)<CR>
-    nnoremap <silent> <leader>x :call Cutclip('n', 1)<CR>
+    vnoremap <silent> <leader>x :call CutClip(visualmode(), 1)<CR>
+    nnoremap <silent> <leader>x :call CutClip('n', 1)<CR>
     " }
 
     " Find {
