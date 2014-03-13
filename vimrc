@@ -85,7 +85,7 @@
             "Bundle 'godlygeek/csapprox'
             Bundle 'jistr/vim-nerdtree-tabs'
             Bundle 'flazz/vim-colorschemes'
-            Bundle 'corntrace/bufexplorer'
+            "Bundle 'corntrace/bufexplorer'
 
             Bundle 'L9'
             Bundle 'FuzzyFinder'
@@ -94,7 +94,7 @@
             Bundle 'vimoutliner/vimoutliner'
             Bundle 'vim-indent-object'
             Bundle 'project.tar.gz'
-            ""Bundle 'AsyncCommand'
+            Bundle 'AsyncCommand'
 
 
 
@@ -510,7 +510,7 @@
      " }
 
      " Buffer explorer {
-        nmap <leader>b :BufExplorer<CR>
+     "   nmap <leader>b :BufExplorer<CR>
      " }
 
      " Powerline {
@@ -1285,6 +1285,12 @@
     nmap <c-g>c :lclose<cr>
     " }
 
+    " DiffOrig {
+    if !exists(":DiffOrig")
+        command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+                    \ | wincmd p | diffthis
+    endif
+    " }
 " }
 
 " Use local vimrc if available {
